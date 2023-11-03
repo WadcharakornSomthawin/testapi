@@ -61,7 +61,12 @@ db.connect((err) => {
  *        description: User added
  */
 app.post("/add", (req, res) => {
-  // ... (same as before)
+  const newUser = { name: req.body.name, email: req.body.email };
+  const sql = "INSERT INTO users SET ?";
+  db.query(sql, newUser, (err, result) => {
+    if (err) throw err;
+    res.send("User added...");
+  });
 });
 
 /**
@@ -126,7 +131,11 @@ app.put("/update/:id", (req, res) => {
  *        description: User deleted
  */
 app.delete("/delete/:id", (req, res) => {
-  // ... (same as before)
+  const sql = `DELETE FROM users WHERE id = ${req.params.id}`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send("User deleted...");
+  });
 });
 
 // Server
